@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 #Global Variables
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 rutapdf = "./RDP.pdf"
 globalconocimiento = ""
 
@@ -48,11 +48,6 @@ def create_embeddings():
         return "Ocurrió un error"
 
 
-@app.route('/testpdf')
-@cross_origin(origin='*')
-def test_pdf():
-    pdf_reader = PdfReader(rutapdf)
-    return "Numero de paginas: " + str(len(pdf_reader.pages))
 
 #Endpoitns
 
@@ -85,15 +80,6 @@ def responder():
     except Exception as e:
             print(e)
             return e
-
-
-@app.route('/qatest', methods=['POST'])
-@cross_origin(origin='*')
-def pruebarespuesta():
-    responsrfont = request.get_json()
-    print(responsrfont)
-    return jsonify({'mensaje':'Exito'})
-
-
+    
 if __name__ == '__main__':
 	app.run(host="0.0.0.0", port=8000)
